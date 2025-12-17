@@ -1,0 +1,253 @@
+<div class="report-container">
+  <div class="header">
+    <div class="logo-container">
+      <img src="assets/layout/images/ubci.png" alt="Logo UBCI" class="logo" style="width: 200px;" />
+    </div>
+    <div class="title-container">
+      <h1>COMPTE RENDU DE LA PRODUCTION INFORMATIQUE</h1>
+      <h2>Journée du {{ selectedDate }}</h2>
+    </div>
+    <div class="department">DSI/CTI</div>
+  </div>
+  <div class="date-selector-container no-print">
+    <div class="alert alert-info">
+      <strong>Choisir la date que vous voulez afficher</strong>
+    </div>
+    <div class="d-flex align-items-center gap-2 mb-4">
+      <label for="datePicker" class="fw-bold">Sélectionner une date:</label>
+      <input 
+        type="date" 
+        id="datePicker" 
+        class="form-control w-auto" 
+        [(ngModel)]="selectedDate"
+        (change)="onDateChange()"
+      />
+    </div>
+  </div>
+  <table class="table table-bordered table-spacing">
+    <thead>
+      <tr class="bg-success text-black">
+        <th>Incidents du jour</th>
+        <th>Intervenant</th>
+        <th>Impact</th>
+        <th>Criticité</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let incident of incidentsDuJour">
+        <td>{{ incident.typeIncident }}</td>
+        <td>{{ incident.user?.firstName || 'Non assigné' }}</td>
+        <td>{{ incident.impact }}</td>
+        <td>{{ incident.criticite }}</td>
+      </tr>
+      <tr *ngIf="incidentsDuJour.length === 0">
+        <td colspan="4" class="text-center">Aucun incident aujourd'hui</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered table-spacing">
+    <thead>
+      <tr class="bg-success text-black">
+        <th>Incidents non résolus</th>
+        <th>Date</th>
+        <th>Intervenant</th>
+        <th>Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let incident of incidentsNonResolus">
+        <td>{{ incident.typeIncident }}</td>
+        <td>{{ incident.dateIncident | date:'dd/MM/yyyy' }}</td>
+        <td>{{ incident.user?.firstName || 'Non assigné' }}</td>
+        <td>{{ incident.impact }}</td>
+      </tr>
+      <tr *ngIf="incidentsNonResolus.length === 0">
+        <td colspan="4" class="text-center">Aucun incident non résolu</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered table-spacing">
+    <thead>
+      <tr class="bg-success text-black">
+        <th>Incidents résolus</th>
+        <th>Date</th>
+        <th>Intervenant</th>
+        <th>Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let incident of incidentsResolus">
+        <td>{{ incident.typeIncident }}</td>
+        <td>{{ incident.dateIncident | date:'dd/MM/yyyy' }}</td>
+        <td>{{ incident.user?.firstName || 'Non assigné' }}</td>
+        <td>{{ incident.impact }}</td>
+      </tr>
+      <tr *ngIf="incidentsResolus.length === 0">
+        <td colspan="4" class="text-center">Aucun incident résolu</td>
+      </tr>
+    </tbody>
+  </table>
+
+<div class="d-flex align-start gap-2 mt-2">
+
+<div class="event-wrapper">
+  <table class="table table-bordered custom-table event-table-gray">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Horaire Prévue</th>
+        <th>Horaire Fictif</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>{{ event.eventType }}</td>
+        <td>{{ event.scheduledTime?.slice(0, 5).replace(':', 'h') }}</td>
+        <td>{{ event.fictionalTime?.slice(0, 5).replace(':', 'h') }}</td>
+      </tr>
+      <tr *ngIf="events.length === 0">
+        <td colspan="3" class="text-center">Aucun événement</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="d-flex flex-column production-wrapper">
+      <table class="table table-bordered ">
+        <tbody>
+          <tr>
+            <td class="text-center fw-bold" style="background-color: #c0c0c0;">Mise en production</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table table-bordered custom-table mise-en-prod-table">
+        <thead>
+          <tr class="bg-success text-black">
+            <th>Module / Application</th>
+            <th>Métier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of miseEnProductionList">
+  <td>{{ item.application }}</td>
+  <td>{{ item.metier }}</td>
+</tr>
+<tr *ngIf="miseEnProductionList.length === 0">
+  <td colspan="2" class="text-center">Aucune mise en production</td>
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<table class="table table-bordered w-50 mx-auto my-0">
+  <tbody>
+    <tr>
+      <td class="text-center fw-bold" style="background-color: #c0c0c0;">GAB</td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-bordered w-75 mx-auto my-0">
+
+  <tbody>
+    <tr>
+      <td class="fw-bold" style="background-color: #c0c0c0;">Nbre GAB</td>
+      <td style="background-color: #c0c0c0;" >{{ totalGabs }}</td>
+      <td class="fw-bold">Taux de disponibilité</td>
+      <td>{{ tauxDisponibilite | number:'1.2-2' }}%</td>
+    </tr>
+    <tr>
+      <td class="fw-bold" style="background-color: #E5E5E5;">Nbre GAB Hors Service</td>
+      <td style="background-color: #E5E5E5;">{{ gabsHorsService }}</td>
+      <td class="fw-bold">Taux de disponibilité (Nov 2024)</td>
+      <td>{{ tauxDisponibiliteMois | number:'1.2-2' }}%</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="table table-bordered w-75 mx-auto">
+  <thead>
+    <tr class="bg-success text-black">
+      <th colspan="5" class="text-center" style="background-color: #E5E5E5;">Liste GAB hors service</th>
+    </tr>
+    <tr class="bg-success text-black">
+      <th>GAB Ag.</th>
+      <th>Jour Date-Heure GAB Hors Service</th>
+      <th>Jour Date-Heure GAB En Service</th>
+      <th>Date-Heure GAB En Service</th>
+      <th>Motif Indisponibilité</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let gab of gabs">
+      <td>{{ gab.gabAg }}</td>
+      <td>{{ formatDateTimeFr(gab.jdhHorsService) }}</td>
+      <td>{{ formatDateTimeFr(gab.jdhEnService) }}</td>
+      <td>{{ formatTimeToH(gab.jdEnService) }}</td>
+      <td>{{ gab.motifIndis }}</td>
+    </tr>
+    <tr *ngIf="gabs.length === 0">
+      <td colspan="5" class="text-center">Aucun GAB hors service</td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-bordered w-5 margin-left:auto;">
+  <tbody>
+    <tr>
+      <td class="text-center fw-bold" style="background-color: #c0c0c0;">Problèmes réseau informatique et téléphonie</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-bordered w-75 mx-auto">
+  <thead>
+    <tr class="bg-success text-black">
+      <th>Entité / Agence </th>
+      <th>Heure Coupure</th>
+      <th>Heure Reprise</th>
+      <th>Motif</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of problemeList">
+      <td>{{ p.entite }}</td>
+      <td>{{ formatTimeDisplay(p.hCoup) }}</td>
+      <td>{{ formatTimeDisplay(p.hReprise) }}</td>
+      <td>{{ p.motif }}</td>
+    </tr>
+    <tr *ngIf="problemeList.length === 0">
+      <td colspan="5" class="text-center">Aucun problème enregistré</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-bordered w-75 mx-auto my-0">
+  <thead>
+    <tr class="bg-success text-black">
+      <th colspan="4" class="text-center" style="background-color: #E5E5E5;">Autres Incidents / Divers</th>
+    </tr>
+    <tr class="bg-light text-black">
+      <th>Date</th>
+      <th>Intervenant</th>
+      <th>Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let incident of autresIncidents">
+      <td>{{ incident.dateIncident | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ incident.user?.firstName || 'Non assigné' }}</td>
+      <td>{{ incident.impact }}</td>
+    </tr>
+    <tr *ngIf="autresIncidents.length === 0">
+      <td colspan="4" class="text-center">Aucun incident divers</td>
+    </tr>
+  </tbody>
+</table>
+  <div class="text-center my-4 no-print">
+    <button class="btn btn-success" (click)="printPage()">
+      <i class="bi bi-printer"></i> Imprimer
+    </button>
+  </div>
+</div>

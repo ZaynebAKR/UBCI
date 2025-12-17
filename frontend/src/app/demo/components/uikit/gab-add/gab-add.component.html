@@ -1,0 +1,75 @@
+<div class="background-wrapper">
+  <div class="new-gab-wrapper">
+    <div class="new-gab-container">
+      <div class="card shadow-lg">
+        <div class="card-header bg-white text-dark d-flex justify-content-center">
+          <h3 class="card-title text-center fw-bold">
+            <i class="bi bi-plus-circle"></i> Ajouter un GAB
+          </h3>
+        </div>
+        <br/>
+
+        <div class="card-body">
+          <form (ngSubmit)="saveGab()" [formGroup]="gabForm">
+
+            <div class="mb-4">
+              <label class="form-label" for="gabAg">GAB Ag</label>
+              <input type="text" class="form-control" id="gabAg" formControlName="gabAg" placeholder="Exemple : GAB123">
+              <div *ngIf="gabForm.controls['gabAg'].touched && gabForm.controls['gabAg'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label" for="jdhHorsService">Date-Heure Hors Service</label>
+                <input type="datetime-local" class="form-control" id="jdhHorsService" 
+                       formControlName="jdhHorsService">
+                <div *ngIf="gabForm.controls['jdhHorsService'].touched && gabForm.controls['jdhHorsService'].errors?.['required']"
+                     class="text-danger mt-2">
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label class="form-label" for="jdhEnService">Date-Heure En Service</label>
+                <input type="datetime-local" class="form-control" id="jdhEnService" 
+                       formControlName="jdhEnService">
+                <div *ngIf="gabForm.controls['jdhEnService'].touched && gabForm.controls['jdhEnService'].errors?.['required']"
+                     class="text-danger mt-2">
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="jdEnService">Heure En Service (sans jour)</label>
+              <input type="datetime-local" class="form-control" id="jdEnService" 
+                     formControlName="jdEnService">
+              <div *ngIf="gabForm.controls['jdEnService'].touched && gabForm.controls['jdEnService'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="motifIndis">Motif d'indisponibilité</label>
+              <textarea class="form-control" id="motifIndis" formControlName="motifIndis" 
+                        rows="3" placeholder="Décrivez le motif d'indisponibilité"></textarea>
+              <div *ngIf="gabForm.controls['motifIndis'].touched && gabForm.controls['motifIndis'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button [disabled]="!gabForm.valid" class="btn btn-success btn-sm" type="submit">
+                <i class="bi bi-send-fill"></i> Enregistrer
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
+                <i class="bi bi-x-circle"></i> Annuler
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

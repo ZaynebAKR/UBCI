@@ -1,0 +1,61 @@
+<div class="background-wrapper">
+  <div class="new-gab-wrapper">
+    <div class="new-gab-container">
+      <div class="card shadow-lg">
+        <div class="card-header bg-white text-dark d-flex justify-content-center">
+          <h3 class="card-title text-center fw-bold">
+            <i class="bi bi-plus-circle"></i> Ajouter un NbrGAB
+          </h3>
+        </div>
+        <br/>
+
+        <div class="card-body">
+          <form (ngSubmit)="saveNbrGab()" [formGroup]="nbrGabForm">
+
+            <div class="mb-4">
+              <label class="form-label" for="nbreGAB">Nombre de GAB</label>
+              <input type="number" class="form-control" id="nbreGAB" formControlName="nbreGAB" placeholder="Exemple : 15">
+              <div *ngIf="nbrGabForm.controls['nbreGAB'].touched && nbrGabForm.controls['nbreGAB'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="nbreGABH">Nombre de GAB Hors Service</label>
+              <input type="number" class="form-control" id="nbreGABH" formControlName="nbreGABH" placeholder="Exemple : 3">
+              <div *ngIf="nbrGabForm.controls['nbreGABH'].touched && nbrGabForm.controls['nbreGABH'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="tauxDis">Taux Disponibilité (%)</label>
+              <input type="number" step="0.01" class="form-control" id="tauxDis" formControlName="tauxDis" placeholder="Exemple : 95.5">
+              <div *ngIf="nbrGabForm.controls['tauxDis'].touched && nbrGabForm.controls['tauxDis'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="tauxDisMois">Taux Disponibilité Mensuel (%)</label>
+              <input type="number" step="0.01" class="form-control" id="tauxDisMois" formControlName="tauxDisMois" placeholder="Exemple : 97.2">
+              <div *ngIf="nbrGabForm.controls['tauxDisMois'].touched && nbrGabForm.controls['tauxDisMois'].errors?.['required']"
+                   class="text-danger mt-2">
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button [disabled]="!nbrGabForm.valid" class="btn btn-success btn-sm" type="submit">
+                <i class="bi bi-send-fill"></i> Enregistrer
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()">
+                <i class="bi bi-x-circle"></i> Annuler
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

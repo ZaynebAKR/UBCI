@@ -1,0 +1,83 @@
+<div class="auth-container">
+
+  <div class="holographic-indicator">
+    <div class="holographic-line"></div>
+    <div class="holographic-dot"></div>
+  </div>
+  <div class="auth-card">
+    <div class="card-content">
+      <div class="auth-header">
+        <img src="assets/layout/images/ubcii.png" alt="Auth Logo" class="auth-logo" />
+        <h2>Create Account</h2>
+        <p>Join our community today</p>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+        <div class="floating-label-group">
+          <input type="email" id="email" [(ngModel)]="user.email" name="email" required (blur)="checkEmail()" placeholder=" ">
+          <label for="email" style="color: #004d2a; background-color: transparent; height: 35px; "> <h2>Email </h2></label>
+          <div class="border-light"></div>
+          <mat-error *ngIf="emailError">{{ emailError }}</mat-error>
+        </div>
+
+        <div class="floating-label-group">
+          <input type="text" id="firstName" [(ngModel)]="user.firstName" name="firstName" required placeholder=" ">
+          <label for="firstName" style="color: #004d2a; background-color: transparent; height: 35px; "> <h2>First Name</h2></label>
+          <div class="border-light"></div>
+        </div>
+
+        <div class="floating-label-group">
+          <input type="text" id="lastName" [(ngModel)]="user.lastName" name="lastName" required placeholder=" ">
+          <label for="lastName"style="color: #004d2a; background-color: transparent; height: 35px; "><h2>Last Name</h2></label>
+          <div class="border-light"></div>
+        </div>
+
+        <div class="floating-label-group">
+          <input [type]="hidePassword ? 'password' : 'text'" id="password" [(ngModel)]="user.password" name="password" required placeholder=" ">
+          <label for="password" style="color: #004d2a; background-color: transparent; height: 35px; "> <h2>Password</h2></label>
+          <div class="border-light"></div>
+          <i class="material-icons toggle-password" (click)="hidePassword = !hidePassword">
+            
+          </i>
+        </div>
+
+        <div class="floating-label-group">
+          <input type="text" id="phoneNumber" [(ngModel)]="user.phoneNumber" name="phoneNumber" (blur)="checkPhone()" placeholder=" ">
+          <label for="phoneNumber" style="color: #004d2a; background-color: transparent; height: 35px; "> <h2>Phone Number </h2></label>
+          <div class="border-light"></div>
+          <mat-error *ngIf="phoneError">{{ phoneError }}</mat-error>
+        </div>
+
+        <div class="floating-label-group">
+          <input type="text" id="address" [(ngModel)]="user.address" name="address" placeholder=" ">
+          <label for="address" style="color: #004d2a; background-color: transparent; height: 35px; "> <h2>Address </h2></label>
+          <div class="border-light"></div>
+        </div>
+
+        <div class="terms-agreement">
+          <label>
+            <input type="checkbox" [(ngModel)]="agreeTerms" name="agreeTerms" required>
+            <span class="checkmark"></span>
+
+            I agree to the <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>
+
+          </label>
+        </div>
+      <br/>
+        <button class="auth-button" type="submit" [disabled]="emailError || phoneError">
+          <span>Create Account</span>
+
+        </button>
+      </form>
+      
+      <div class="auth-footer">
+        <span>Already have an account?</span>
+        <button type="button" (click)="navigateToLogin()" class="sign-in-link" style="background-color: transparent; border-color: transparent;">Sign In</button>
+
+      </div>
+      
+      <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
+
+    </div>
+  </div>
+</div>

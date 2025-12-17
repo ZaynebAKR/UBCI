@@ -1,0 +1,67 @@
+<div class="new-probleme-wrapper">
+  <div class="new-probleme-container">
+    <div class="card shadow-lg">
+      <div class="card-header bg-white text-dark d-flex justify-content-center">
+        <h3 class="card-title text-center fw-bold">
+          <i class="bi bi-exclamation-circle-fill"></i> Ajouter Problème
+        </h3>
+      </div>
+      <br />
+
+      <div class="card-body">
+        <form [formGroup]="problemeForm" (ngSubmit)="onSubmit()">
+
+          <div class="mb-4">
+            <label class="form-label" for="entite">Entité</label>
+            <input class="form-control" id="entite" type="text" formControlName="entite" placeholder="Ex : Agence 1010" />
+            <div *ngIf="problemeForm.controls['entite'].touched &&
+                        problemeForm.controls['entite'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="hCoup">Date-Heure Coupure</label>
+            <input class="form-control" id="hCoup" type="datetime-local" formControlName="hCoup" />
+            <div *ngIf="problemeForm.controls['hCoup'].touched &&
+                        problemeForm.controls['hCoup'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="hReprise">Date-Heure Reprise</label>
+            <input class="form-control" id="hReprise" type="datetime-local" formControlName="hReprise" />
+            <div *ngIf="problemeForm.controls['hReprise'].touched &&
+                        problemeForm.controls['hReprise'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="motif">Motif</label>
+            <input class="form-control" id="motif" type="text" formControlName="motif" placeholder="Ex : Coupure EDF, Panne, etc." />
+            <div *ngIf="problemeForm.controls['motif'].touched &&
+                        problemeForm.controls['motif'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button [disabled]="!problemeForm.valid" class="btn btn-success btn-sm" type="submit">
+              <i class="bi bi-send-fill"></i> Ajouter
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="problemeForm.reset()">
+              <i class="bi bi-x-circle"></i> Annuler
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="background-wrapper">
+    <div class="new-incident-wrapper">
+    <div class="new-incident-container">
+      <div class="card shadow-lg">
+        <div class="card-header bg-white text-dark d-flex justify-content-center">
+          <h3 class="card-title text-center fw-bold">
+            <i class="bi bi-person-fill-add"></i> Ajouter Incident
+          </h3>
+        </div>
+<br/>
+
+      <div class="card-body">
+        <form (ngSubmit)="handleSaveIncident()" [formGroup]="newIncidentFormGroup">
+
+          <div class="mb-4">
+            <label class="form-label" for="incidentType">Type d'incident</label>
+           <select class="form-select" id="incidentType" formControlName="incidentType">
+  <option value="">-- Sélectionner --</option>
+  <option value="INCIDENTS_DU_JOUR">Incidents du jour</option>
+  <option value="INCIDENTS_RESOLUS">Incidents résolus</option>
+  <option value="INCIDENTS_NON_RESOLUS">Incidents non résolus</option>
+  <option value="AUTRES_INCIDENTS">Autres Incidents</option>
+</select>
+
+            <div *ngIf="newIncidentFormGroup.controls['incidentType'].touched &&
+                        newIncidentFormGroup.controls['incidentType'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="natureIncident">Nature de l'incident</label>
+            
+<select class="form-select" id="natureIncident" formControlName="natureIncident">
+  <option value="">-- Sélectionner --</option>
+  <option value="TECHNIQUE">Technique</option>
+  <option value="OPERATIONNEL">Opérationnel</option>
+  <option value="SECURITE">Sécurité</option>
+</select>
+            <div *ngIf="newIncidentFormGroup.controls['natureIncident'].touched &&
+                        newIncidentFormGroup.controls['natureIncident'].errors?.['required']"
+                 class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="impact">Impact</label>
+            <input class="form-control" formControlName="impact" id="impact" placeholder="Exemple : Service bancaire indisponible" type="text">
+            <div *ngIf="newIncidentFormGroup.controls['impact'].touched &&
+                        newIncidentFormGroup.controls['impact'].errors?.['required']" class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label" for="criticite">Criticité</label>
+            <input class="form-control" formControlName="criticite" id="criticite" placeholder="Exemple : Critique, Moyenne..." type="text">
+            <div *ngIf="newIncidentFormGroup.controls['criticite'].touched &&
+                        newIncidentFormGroup.controls['criticite'].errors?.['required']" class="text-danger mt-2">
+              Ce champ est requis
+            </div>
+          </div>
+          <div class="mb-4">
+  <label class="form-label" for="dateIncident">Date de l'incident</label>
+  <input
+    class="form-control"
+    type="date"
+    id="dateIncident"
+    formControlName="dateIncident"
+    [disabled]="isIncidentDuJour"
+  />
+  <div *ngIf="newIncidentFormGroup.controls['dateIncident'].touched &&
+              newIncidentFormGroup.controls['dateIncident'].errors?.['required']"
+       class="text-danger mt-2">
+    Ce champ est requis
+  </div>
+</div>
+
+<div class="mb-4">
+  <label class="form-label" for="userId">Utilisateur</label>
+  <select class="form-select" id="userId" formControlName="userId">
+    <option value="">-- Sélectionner un utilisateur --</option>
+    <option *ngFor="let u of users" [value]="u.id">
+      {{ u.firstName }} {{ u.lastName }} 
+    </option>
+  </select>
+  <div *ngIf="newIncidentFormGroup.controls['userId'].touched &&
+              newIncidentFormGroup.controls['userId'].errors?.['required']"
+       class="text-danger mt-2">
+    Ce champ est requis
+  </div>
+</div>
+
+
+          <div class="button-group">
+            <button [disabled]="!newIncidentFormGroup.valid" class="btn btn-success btn-sm" type="submit">
+              <i class="bi bi-send-fill"></i> Submit
+            </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="handleCancel() ">
+  <i class="bi bi-x-circle"></i> Cancel
+</button>
+
+          </div>
+
+         </form>
+        </div>
+      </div>
+    </div>
+</div>

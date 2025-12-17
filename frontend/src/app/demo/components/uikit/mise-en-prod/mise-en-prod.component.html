@@ -1,0 +1,46 @@
+<div class="background-wrapper">
+  <div class="new-prod-wrapper">
+    <div class="new-prod-container">
+      <div class="card shadow-lg">
+        <div class="card-header bg-white text-dark d-flex justify-content-center">
+          <h3 class="card-title text-center fw-bold">
+            <i class="bi bi-gear-fill"></i> Ajouter une mise en production
+          </h3>
+        </div>
+        <br />
+
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="mb-4">
+              <label class="form-label" for="application">Application</label>
+              <input class="form-control" formControlName="application" id="application" type="text" placeholder="Nom de l'application" />
+              <div *ngIf="form.controls['application'].touched && form.controls['application'].errors?.['required']" class="text-danger mt-2">
+                Ce champ est requis
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="metier">Métier</label>
+              <input class="form-control" formControlName="metier" id="metier" type="text" placeholder="Métier concerné" />
+              <div *ngIf="form.controls['metier'].touched && form.controls['metier'].errors?.['required']" class="text-danger mt-2">
+                Ce champ est requis
+              </div>
+            </div>
+
+
+            <div class="button-group">
+              <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">
+                <i class="bi bi-check-circle"></i> Ajouter
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" (click)="form.reset()">
+                <i class="bi bi-x-circle"></i> Annuler
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

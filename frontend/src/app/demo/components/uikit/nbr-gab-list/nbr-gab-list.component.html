@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="filter-selector-container">
+    <label for="filterType">Filtrer par :</label>
+    <select id="filterType" [(ngModel)]="filterType">
+      <option value="date">Date</option>
+      <option value="tauxDisMois">Taux de disponibilité (Mois)</option>
+    </select>
+
+    <input *ngIf="filterType === 'date'" type="date" [(ngModel)]="filterValue" />
+
+    <input *ngIf="filterType === 'tauxDisMois'" type="number" step="0.1" placeholder="Taux mensuel (%)" [(ngModel)]="filterValue" />
+
+    <button (click)="applyFilter()">Filtrer</button>
+    <button (click)="resetFilter()">Réinitialiser</button>
+  </div>
+  
+  <div class="gab-grid">
+    <div class="gab-card" *ngFor="let gab of gabs" [class.expanded]="expandedGabId === gab.id">
+        <p><strong>Nombre GAB :</strong> {{ gab.nbreGAB }}</p>
+        <p><strong>Nombre GABH :</strong> {{ gab.nbreGABH }}</p>      
+      <div class="additional-info" *ngIf="expandedGabId === gab.id">
+        <p><strong>Taux Disponibilité :</strong> {{ gab.tauxDis }}%</p>
+        <p><strong>Taux Disponibilité Mois :</strong> {{ gab.tauxDisMois }}%</p>
+        <p><strong>Date de création :</strong> {{ gab.dateCreationNbrGAB | date:'dd/MM/yyyy HH:mm' }}</p>   
+
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-icon" (click)="viewGab(gab.id)" *ngIf="gab.id !== undefined">
+          <img src="assets/layout/images/vision.png" alt="View" />
+        </button>
+<button class="btn-icon" (click)="openUpdateModal(gab)" *ngIf="gab.id !== undefined">
+  <img src="assets/layout/images/editer.png" alt="Edit" />
+</button>
+
+        <button class="btn-icon" (click)="deleteGab(gab.id)" *ngIf="gab.id !== undefined">
+          <img src="assets/layout/images/supprimer.png" alt="Delete" />
+        </button>
+      </div>
+    </div>
+  </div>
+<div class="modal-backdrop" *ngIf="showUpdateModal">
+  <div class="modal-content">
+    <h3 class="modal-title">Modifier NbrGAB</h3>
+    <form [formGroup]="updateForm" (ngSubmit)="saveUpdatedGab()" class="modal-form">
+      
+      <div class="form-group">
+        <label for="nbreGAB">Nombre GAB</label>
+        <input id="nbreGAB" type="number" formControlName="nbreGAB" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="nbreGABH">Nombre GABH</label>
+        <input id="nbreGABH" type="number" formControlName="nbreGABH" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="tauxDis">Taux Disponibilité (%)</label>
+        <input id="tauxDis" type="number" step="0.1" formControlName="tauxDis" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="tauxDisMois">Taux Disponibilité Mois (%)</label>
+        <input id="tauxDisMois" type="number" step="0.1" formControlName="tauxDisMois" class="form-control" />
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary" [disabled]="updateForm.invalid">Sauvegarder</button>
+        <button type="button" class="btn-secondary" (click)="showUpdateModal=false">Annuler</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+</div>

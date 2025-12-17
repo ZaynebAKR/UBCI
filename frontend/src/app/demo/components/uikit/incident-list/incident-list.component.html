@@ -1,0 +1,78 @@
+<div class="filter-selector-container no-print">
+  <label for="typeFilter" class="fw-bold">Filtrer par type d'incident :</label>
+  <select id="typeFilter" (change)="filterByType($event)" class="form-select">
+    <option value="">-- Tous les types --</option>
+    <option *ngFor="let type of incidentTypes" [value]="type">{{ type }}</option>
+  </select>
+</div>
+
+<div class="incident-grid">
+  <div class="incident-card"
+       *ngFor="let incident of incidents"
+       [class.expanded]="expandedIncidentId === incident.id">
+
+    <h5>{{ incident.typeIncident }}</h5>
+    <p><strong>Nature:</strong> {{ incident.natureIncident }}</p>
+    <p><strong>Date:</strong> {{ incident.dateIncident | date: 'dd/MM/yyyy' }}</p>
+
+    <div class="additional-info" *ngIf="expandedIncidentId === incident.id">
+      <p><strong>Criticité:</strong> {{ incident.criticite }}</p>
+      <p><strong>Impact:</strong> {{ incident.impact }}</p>
+      <p><strong>Date de création:</strong> {{ incident.dateCreationIncident | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-icon" (click)="toggleIncident(incident.id)">
+        <img src="assets/layout/images/vision.png" alt="View" />
+      </button>
+      <button class="btn-icon" (click)="openUpdateModal(incident)">
+        <img src="assets/layout/images/editer.png" alt="Edit" />
+      </button>
+      <button class="btn-icon" (click)="deleteIncident(incident.id)">
+        <img src="assets/layout/images/supprimer.png" alt="Delete" />
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="showUpdateModal">
+  <div class="modal-content">
+    <h3 class="modal-title">Modifier Incident</h3>
+    <form [formGroup]="updateForm" (ngSubmit)="saveUpdatedIncident()" class="modal-form">
+      <div class="form-group">
+        <label for="typeIncident">Type d'incident</label>
+        <select id="typeIncident" formControlName="typeIncident" class="form-control">
+          <option *ngFor="let type of incidentTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="natureIncident">Nature</label>
+        <select id="natureIncident" formControlName="natureIncident" class="form-control">
+          <option *ngFor="let nature of incidentNaturesEnum" [value]="nature">{{ nature }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="criticite">Criticité</label>
+        <input id="criticite" type="text" formControlName="criticite" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="impact">Impact</label>
+        <input id="impact" type="text" formControlName="impact" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="dateIncident">Date Incident</label>
+        <input id="dateIncident" type="date" formControlName="dateIncident" class="form-control" />
+      </div>
+      
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary" [disabled]="updateForm.invalid">Sauvegarder</button>
+        <button type="button" class="btn-secondary" (click)="showUpdateModal=false">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

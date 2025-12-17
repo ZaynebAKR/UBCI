@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <div class="card mt-4">
+    <div class="card-header">
+      <h4 class="text-center">Ajouter un nouvel événement</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="addEvent()" #eventForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventType">Type d'événement</label>
+            <select class="form-control" id="eventType" [(ngModel)]="newEvent.eventType" name="eventType" required>
+              <option *ngFor="let type of eventTypes" [value]="type">
+                {{ EventTypeDisplay[type] }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="scheduledTime">Horaire Prévu</label>
+            <input type="time" class="form-control" id="scheduledTime" [(ngModel)]="newEvent.scheduledTime" name="scheduledTime" required>
+          </div>
+          <div class="form-group">
+            <label for="fictionalTime">Horaire Fictif</label>
+            <input type="time" class="form-control" id="fictionalTime" [(ngModel)]="newEvent.fictionalTime" name="fictionalTime" required>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="!eventForm.form.valid">
+            <i class="bi bi-send-fill"></i> Submit
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="newEvent = { eventType: eventTypes[0], scheduledTime: '', fictionalTime: '' }">
+            <i class="bi bi-x-circle"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

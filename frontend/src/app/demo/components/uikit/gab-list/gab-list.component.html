@@ -1,0 +1,67 @@
+<div class="filter-selector-container no-print">
+  <label for="motifFilter" class="fw-bold">Filtrer par Motif d'indisponibilité :</label>
+  <select id="motifFilter" (change)="filterByMotif($event)">
+    <option value="">-- Tous les motifs --</option>
+    <option *ngFor="let motif of motifsIndisponibilite" [value]="motif">{{ motif }}</option>
+  </select>
+</div>
+<div class="gab-grid">
+  <div class="gab-card" *ngFor="let gab of gabs" [class.expanded]="expandedGabId === gab.idGab">
+    <h5>{{ gab.gabAg }}</h5>
+    <p><strong>Motif:</strong> {{ gab.motifIndis }}</p>
+    
+    <div class="additional-info" *ngIf="expandedGabId === gab.idGab">
+    <p><strong>Jour Date-Heure GAB En service:</strong> {{ gab.jdhEnService | date: 'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Date-Heure GAB en Service :</strong> {{ gab.jdEnService | date: 'HH:mm' }}</p>
+    <p><strong>Jour Date-Heure GAB Hors service:</strong> {{ gab.jdhHorsService | date: 'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Date de création:</strong> {{ gab.dateCreationGAB | date:'dd/MM/yyyy HH:mm' }}</p> <!-- NOUVELLE LIGNE -->
+
+    </div>
+    
+    <div class="btn-group">
+      <button class="btn-icon" (click)="viewGab(gab.idGab)" *ngIf="gab.idGab !== undefined">
+        <img src="assets/layout/images/vision.png" alt="View" />
+      </button>
+      <button class="btn-icon" (click)="updateGab(gab)" *ngIf="gab.idGab !== undefined">
+        <img src="assets/layout/images/editer.png" alt="Edit" />
+      </button>
+      <button class="btn-icon" (click)="deleteGab(gab.idGab)" *ngIf="gab.idGab !== undefined">
+        <img src="assets/layout/images/supprimer.png" alt="Delete" />
+      </button>
+    </div>
+  </div>
+  <div class="modal-backdrop" *ngIf="showUpdateModal">
+  <div class="modal-content">
+    <h3 class="modal-title">Modifier GAB</h3>
+    <form [formGroup]="updateForm" (ngSubmit)="saveUpdatedGab()" class="modal-form">
+
+      <div class="form-group">
+        <label for="gabAg">Agence GAB</label>
+        <input id="gabAg" type="text" formControlName="gabAg" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="motifIndis">Motif Indisponibilité</label>
+        <select id="motifIndis" formControlName="motifIndis" class="form-control">
+          <option *ngFor="let motif of motifsIndisponibilite" [value]="motif">{{ motif }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="jdhEnService">Jour Date-Heure En Service</label>
+        <input id="jdhEnService" type="datetime-local" formControlName="jdhEnService" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="jdhHorsService">Jour Date-Heure Hors Service</label>
+        <input id="jdhHorsService" type="datetime-local" formControlName="jdhHorsService" class="form-control" />
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary" [disabled]="updateForm.invalid">Sauvegarder</button>
+        <button type="button" class="btn-secondary" (click)="showUpdateModal=false">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

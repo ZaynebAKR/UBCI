@@ -1,0 +1,47 @@
+<div class="futuristic-profile-container">
+  <div class="background-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+
+  <mat-card class="profile-card glass-effect" *ngIf="user">
+    <mat-card-header class="profile-card-header">
+      <div class="avatar-wrapper">
+        <img mat-card-avatar [src]="user.avatar || 'assets/layout/images/user.png'" alt="User Avatar" class="profile-avatar">
+      </div>
+      <div class="header-text">
+        <mat-card-title class="profile-name">{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+        <mat-card-subtitle class="profile-role">{{ user.roleType }}</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="profile-card-content">
+      <div class="profile-details">
+        <div class="detail-item">
+          <mat-icon class="detail-icon">email</mat-icon>
+          <span class="detail-text">{{ user.email }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="detail-icon">phone</mat-icon>
+          <span class="detail-text">{{ user.phoneNumber }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="detail-icon">location_on</mat-icon>
+          <span class="detail-text">{{ user.address }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="profile-card-actions">
+      <button mat-stroked-button class="futuristic-button edit-button" (click)="openEditDialog()" style="background-color: #004d2a;color: white; border-radius: 6px; width: 150px;">
+        <span>Edit Profile</span>
+      </button>
+    <button mat-flat-button class="futuristic-button dashboard-button" (click)="navigateToDashboard() " style="background-color: #004d2a;color: white; border-radius: 6px; width: 200px;">
+  <span>Go to Dashboard</span>
+</button>
+
+
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,72 @@
+<div class="filter-selector-container">
+  <label for="motifSearch">Filtrer par type de problème :</label>
+  <input id="motifSearch" type="text" [(ngModel)]="motifSearch" placeholder="Tapez le type de problème">
+  <button (click)="filterByMotif()">Filtrer</button>
+</div>
+<div class="probleme-grid">
+  <div class="probleme-card"
+       *ngFor="let p of problemeList"
+       [class.expanded]="isExpanded(p.idProbleme!)"
+       (click)="$event.stopPropagation()">
+
+    <h5>Problème {{ p.idProbleme }}</h5>
+    <p><strong>Entité :</strong> {{ p.entite }}</p>
+    <p><strong>Motif :</strong> {{ p.motif }}</p>
+
+    <div class="additional-info" *ngIf="isExpanded(p.idProbleme!)">
+      <p><strong>Heure Coupure :</strong> {{ p.hCoup }}</p>
+      <p><strong>Heure Reprise :</strong> {{ p.hReprise }}</p>
+      <p><strong>Date de création :</strong> {{ p.dateCreationProb | date:'dd/MM/yyyy HH:mm' }}</p>
+
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-icon" (click)="viewProbleme(p.idProbleme!)" title="Voir détails">
+        <img src="assets/layout/images/vision.png" alt="View" />
+      </button>
+      <button class="btn-icon" (click)="openUpdateModal(p)" title="Modifier">
+        <img src="assets/layout/images/editer.png" alt="Edit" />
+      </button>
+
+      <button class="btn-icon" (click)="deleteProbleme(p.idProbleme!)" title="Supprimer">
+        <img src="assets/layout/images/supprimer.png" alt="Delete" />
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showUpdateModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Modifier Problème</h3>
+      <form [formGroup]="updateForm" (ngSubmit)="saveUpdatedProbleme()" class="modal-form">
+
+        <div class="form-group">
+          <label for="entite">Entité</label>
+          <input id="entite" type="text" formControlName="entite" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="motif">Motif</label>
+          <input id="motif" type="text" formControlName="motif" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="hCoup">Heure Coupure</label>
+          <input id="hCoup" type="datetime-local" formControlName="hCoup" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label for="hReprise">Heure Reprise</label>
+          <input id="hReprise" type="datetime-local" formControlName="hReprise" class="form-control" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary" [disabled]="updateForm.invalid">Sauvegarder</button>
+          <button type="button" class="btn-secondary" (click)="closeUpdateModal()">Annuler</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" *ngIf="expandedProblemeIds.length > 0" 
+       (click)="expandedProblemeIds = []"></div>
+</div>
